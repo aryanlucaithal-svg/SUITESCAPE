@@ -11,12 +11,14 @@ import java.util.*;
 
 public class BookingForm extends JFrame {
     private static final SimpleDateFormat DATE_FMT = new SimpleDateFormat("yyyy-MM-dd");
+    
     private static final String[] PACKAGES = {
         "Day Tour (9:00 AM - 5:00 PM) - P5,500","Night Swim (7:00 PM - 3:00 AM) - P6,500","Exclusive (24-Hours) - P15,500 "};
     
     private final ArrayList<Record> bookings = new ArrayList<>();
     private final ArrayList<Record> events = new ArrayList<>();
     private final ArrayList<Transaction> transactions = new ArrayList<>();
+    
     private int nextId = 1001;
     private int nextTxnId = 1001;
     
@@ -43,7 +45,7 @@ public class BookingForm extends JFrame {
     
     public BookingForm(){
         setTitle("Reception Console ");
-        setIconImage(new ImageIcon("C:\\Users\\User\\OneDrive\\Pictures\\Saved Pictures\\zyzy.jpg").getImage());
+        setIconImage(new ImageIcon("C:\\Users\\User\\Downloads\\S-1.jpg").getImage());
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(1000, 820);
         setLocationRelativeTo(null);
@@ -81,6 +83,7 @@ public class BookingForm extends JFrame {
         comboPackage = new JComboBox(PACKAGES);
         comboMethod = new JComboBox(new String[]{"Cash", "Card", "GCash", "Maya", "Bank Transfer"});
         comboDiscount = new JComboBox(new String[]{"No Discount (0%)", "Senior Discount (7%)", "PWD Discount (8%)"});
+        
         txtSubtotal = makeField("", false);
         txtDiscount = makeField("", false);
         txtTotal = makeField("", false);
@@ -277,11 +280,14 @@ public class BookingForm extends JFrame {
         tab.add(tablePanel, BorderLayout.CENTER);
         return tab;
     }
+    
     private void searchTransactions(){
-        String query = txtSearchTxn.getText().trim();
-
+        String query = txtSearchTxn.getText().trim().toUpperCase();
         if (query.equals("")) {
-            JOptionPane.showMessageDialog(this, "Please enter a Transaction No. to search.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this,
+                    "Please enter a Transaction No. to search.",
+                    "Validation Error",
+                    JOptionPane.ERROR_MESSAGE);
             return;
         }
         int low = 0;
@@ -302,15 +308,19 @@ public class BookingForm extends JFrame {
                 high = mid - 1;
             }
         }
-
         if (foundIndex == -1) {
-            JOptionPane.showMessageDialog(this, "No transaction found with No. \"" + query + "\".", "Not Found", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this,
+                    "No transaction found with No. \"" + query + "\".",
+                    "Not Found",
+                    JOptionPane.INFORMATION_MESSAGE);
             return;
         }
-
         txnTable.setRowSelectionInterval(foundIndex, foundIndex);
-        txnTable.scrollRectToVisible(txnTable.getCellRect(foundIndex, 0, true));
+        txnTable.scrollRectToVisible(txnTable.getCellRect(foundIndex,
+                0, true));
     }
+    
+    
     private void updateReservationTotals(){
         String pkg = (String) comboPackage.getSelectedItem();
         if (pkg == null) return;
@@ -491,6 +501,9 @@ public class BookingForm extends JFrame {
         String receipt = "";
         receipt = receipt + "         SUITESCAPE RESORT\n";
         receipt = receipt + "           Official Receipt\n";
+        receipt = receipt + line;
+        receipt = receipt + "  1000 Caingin St. San Rafael Bulacan Rd." + "\n";
+        receipt = receipt + "             09222099600" + "\n";
         receipt = receipt + line;
         receipt = receipt + "Txn No.    : " + txnId + "\n";
         receipt = receipt + "Booking ID : " + bookingId + "\n";
@@ -815,4 +828,4 @@ public class BookingForm extends JFrame {
         BookingForm b = new BookingForm();
         b.setVisible(true);
     }
-}
+}                    
